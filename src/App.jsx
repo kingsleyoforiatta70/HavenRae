@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import SplashScreen from './components/SplashScreen';
 import WelcomeScreen from './components/WelcomeScreen';
+import LoginScreen from './components/LoginScreen';
+import Dashboard from './components/Dashboard';
 
 function App() {
   const [currentScreen, setCurrentScreen] = useState('splash');
+  const [user, setUser] = useState(null);
 
   return (
     <div className="w-full h-full min-h-screen bg-brand-neutral">
@@ -20,32 +23,26 @@ function App() {
         />
       )}
 
-      {/* 3. Login Screen (Placeholder until Figma specs are provided) */}
+      {/* 3. Login Screen (Figma Specified Layout) */}
       {currentScreen === 'login' && (
-        <div className="flex flex-col items-center justify-center min-h-screen bg-brand-neutral p-6">
-          <div className="text-center max-w-md p-8 bg-white/60 backdrop-blur-md rounded-2xl border border-brand-green/10 shadow-lg animate-fade-in">
-            <h2 className="text-3xl font-bold font-inter text-brand-green mb-4">
-              Login Screen
-            </h2>
-            <p className="text-brand-gray font-inter mb-6">
-              Awaiting your Figma login screen specifications to implement the step-by-step form layout.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-3 justify-center">
-              <button
-                onClick={() => setCurrentScreen('welcome')}
-                className="px-6 py-2 border border-brand-green text-brand-green hover:bg-brand-green/5 rounded-lg font-semibold transition-colors cursor-pointer"
-              >
-                Back to Home
-              </button>
-              <button
-                onClick={() => setCurrentScreen('splash')}
-                className="px-6 py-2 bg-brand-green text-brand-neutral rounded-lg font-semibold hover:bg-brand-green/90 transition-colors shadow-sm cursor-pointer"
-              >
-                Replay Splash
-              </button>
-            </div>
-          </div>
-        </div>
+        <LoginScreen 
+          onBack={() => setCurrentScreen('welcome')} 
+          onLoginSuccess={(userData) => {
+            setUser(userData);
+            setCurrentScreen('dashboard');
+          }}
+        />
+      )}
+
+      {/* 4. Customer Dashboard Portal */}
+      {currentScreen === 'dashboard' && (
+        <Dashboard 
+          user={user} 
+          onLogout={() => {
+            setUser(null);
+            setCurrentScreen('welcome');
+          }} 
+        />
       )}
     </div>
   );
