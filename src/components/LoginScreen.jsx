@@ -20,17 +20,29 @@ export default function LoginScreen({ onBack, onLoginSuccess }) {
     // Simulate login request against mock credentials
     setTimeout(() => {
       setLoading(false);
-      if (email.toLowerCase().trim() === 'client@havenrae.com' && password === 'password123') {
+      const normalizedEmail = email.toLowerCase().trim();
+      if (normalizedEmail === 'client@havenrae.com' && password === 'password123') {
         if (onLoginSuccess) {
           onLoginSuccess({
             name: 'Ama Mensah',
             email: 'client@havenrae.com',
+            role: 'client',
             location: 'Airport Residential Area, Accra',
             avatar: '/images/kingsley-hemans-sL_tARoYdu4-unsplash.jpg',
           });
         }
+      } else if (normalizedEmail === 'manager@havenrae.com' && password === 'password123') {
+        if (onLoginSuccess) {
+          onLoginSuccess({
+            name: 'Kingsley Hemans',
+            email: 'manager@havenrae.com',
+            role: 'manager',
+            location: 'Head Office, Accra',
+            avatar: '/images/kingsley-hemans-sL_tARoYdu4-unsplash.jpg',
+          });
+        }
       } else {
-        setError('Invalid credentials! Try client@havenrae.com / password123');
+        setError('Invalid credentials! Hint: client@havenrae.com or manager@havenrae.com (pwd: password123)');
       }
     }, 1200);
   };
