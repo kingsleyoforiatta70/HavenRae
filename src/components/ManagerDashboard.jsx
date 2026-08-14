@@ -171,8 +171,8 @@ export default function ManagerDashboard({ user, onLogout, projects, setProjects
               className="w-12 h-12 rounded-full border-2 border-[#C1633B] object-cover"
             />
             <div className="flex flex-col text-left">
-              <span className="font-bold text-[15px] leading-tight">{user?.name || 'Kingsley Hemans'}</span>
-              <span className="text-xs text-white/60 truncate max-w-[130px]">Operations Lead</span>
+              <span className="font-bold text-[15px] leading-tight">{user?.name || 'Angel Sharon'}</span>
+              <span className="text-xs text-white/60 truncate max-w-[130px]">Operations Manager</span>
             </div>
           </div>
           
@@ -193,7 +193,7 @@ export default function ManagerDashboard({ user, onLogout, projects, setProjects
         <header className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-[#E6E0D9] pb-6 mb-8">
           <div>
             <h1 className="text-3xl font-extrabold tracking-tight text-[#2D4A3B] flex items-center gap-2">
-              Manager Panel: {user?.name || 'Kingsley'} <Sparkles className="w-5 h-5 text-[#C1633B]" />
+              Manager Panel: {user?.name || 'Angel'} <Sparkles className="w-5 h-5 text-[#C1633B]" />
             </h1>
             <p className="text-[#7A7268] text-sm mt-1">{user?.location || 'Head Office, Accra'}</p>
           </div>

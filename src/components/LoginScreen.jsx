@@ -34,7 +34,7 @@ export default function LoginScreen({ onBack, onLoginSuccess }) {
       } else if (normalizedEmail === 'manager@havenrae.com' && password === 'password123') {
         if (onLoginSuccess) {
           onLoginSuccess({
-            name: 'Kingsley Hemans',
+            name: 'Angel Sharon',
             email: 'manager@havenrae.com',
             role: 'manager',
             location: 'Head Office, Accra',
