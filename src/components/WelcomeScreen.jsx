@@ -70,17 +70,17 @@ export default function WelcomeScreen({ onStart, onLogin }) {
       desc: 'From the big picture to the little details, we help bring your space together.'
     },
     {
-      icon: <Maximize className="w-4 h-4 text-white" />,
+      icon: <Maximize className="w-5 h-5 text-[#2D4A3B]" />,
       title: 'Space Planning',
       desc: 'Making sure everything has a place and the space actually works for you.'
     },
     {
-      icon: <Calendar className="w-4 h-4 text-white" />,
+      icon: <Calendar className="w-5 h-5 text-[#2D4A3B]" />,
       title: 'Project Management',
       desc: 'Keeping track of the moving parts while your project comes together.'
     },
     {
-      icon: <ShoppingBag className="w-4 h-4 text-white" />,
+      icon: <ShoppingBag className="w-5 h-5 text-[#2D4A3B]" />,
       title: 'Sourcing & Styling',
       desc: 'Finding the pieces, finishes and details that make the space feel complete.'
     }
@@ -273,12 +273,12 @@ export default function WelcomeScreen({ onStart, onLogin }) {
           <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-[70px]">
             {services.map((svc, idx) => (
               <div key={idx} className="flex flex-col items-start text-left group">
-                {/* 28x28px green container (or raw image icon) */}
-                <div className={`w-[28px] h-[28px] rounded-[6px] flex items-center justify-center mb-[12px] group-hover:scale-105 transition-transform overflow-hidden ${
-                  typeof svc.icon === 'string' ? '' : 'bg-[#2D4A3B]'
+                {/* 48x48px styled container with micro-animations */}
+                <div className={`w-[48px] h-[48px] rounded-xl flex items-center justify-center mb-[16px] group-hover:scale-110 group-hover:rotate-6 transition-all duration-300 ease-out ${
+                  typeof svc.icon === 'string' ? 'bg-[#EDE1DA]/80' : 'bg-[#2D4A3B]/10'
                 }`}>
                   {typeof svc.icon === 'string' ? (
-                    <img src={svc.icon} alt={svc.title} className="w-full h-full object-cover" />
+                    <img src={svc.icon} alt={svc.title} className="w-8 h-8 object-contain mix-blend-multiply" />
                   ) : (
                     svc.icon
                   )}
