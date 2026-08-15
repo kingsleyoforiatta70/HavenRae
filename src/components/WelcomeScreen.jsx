@@ -1,6 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { 
-  Sparkles, 
   Maximize, 
   Calendar, 
   ShoppingBag,
@@ -66,7 +65,7 @@ export default function WelcomeScreen({ onStart, onLogin }) {
 
   const services = [
     {
-      icon: <Sparkles className="w-4 h-4 text-white" />,
+      icon: '/images/interio-icon.jpg',
       title: 'Interior Design',
       desc: 'From the big picture to the little details, we help bring your space together.'
     },
@@ -274,9 +273,15 @@ export default function WelcomeScreen({ onStart, onLogin }) {
           <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-[70px]">
             {services.map((svc, idx) => (
               <div key={idx} className="flex flex-col items-start text-left group">
-                {/* 28x28px green container */}
-                <div className="w-[28px] h-[28px] bg-[#2D4A3B] rounded-[6px] flex items-center justify-center mb-[12px] group-hover:scale-105 transition-transform">
-                  {svc.icon}
+                {/* 28x28px green container (or raw image icon) */}
+                <div className={`w-[28px] h-[28px] rounded-[6px] flex items-center justify-center mb-[12px] group-hover:scale-105 transition-transform overflow-hidden ${
+                  typeof svc.icon === 'string' ? '' : 'bg-[#2D4A3B]'
+                }`}>
+                  {typeof svc.icon === 'string' ? (
+                    <img src={svc.icon} alt={svc.title} className="w-full h-full object-cover" />
+                  ) : (
+                    svc.icon
+                  )}
                 </div>
                 <h3 className="font-inter font-medium text-[15px] leading-[18px] text-[#252320] mb-[10px] group-hover:text-[#2D4A3B] transition-colors">
                   {svc.title}
