@@ -119,7 +119,7 @@ export default function WelcomeScreen({ onStart, onLogin }) {
     <div className="flex flex-col bg-white min-h-screen font-inter select-none overflow-x-hidden text-[#252320]">
       
       {/* 1. Nav Bar (Figma: height 90px, background #F4F1EC) */}
-      <nav className={`w-full h-[90px] flex justify-between items-center px-6 md:px-16 lg:px-[80px] bg-[#F4F1EC] sticky top-0 z-50 border-b border-[#2D4A3B]/5 transition-all duration-300 ease-in-out ${
+      <nav className={`w-full h-[90px] flex justify-between items-center px-6 md:px-16 lg:px-[80px] bg-[#F4F1EC] fixed top-0 left-0 right-0 z-50 border-b border-[#2D4A3B]/5 transition-all duration-300 ease-in-out ${
         navVisible ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0'
       }`}>
         
@@ -186,6 +186,9 @@ export default function WelcomeScreen({ onStart, onLogin }) {
           </button>
         </div>
       </nav>
+
+      {/* Nav Bar Spacer to preserve page layout flow with fixed header */}
+      <div className="h-[90px] w-full flex-shrink-0" />
 
       {/* 2. Hero Section (Figma: height 560px, background unsplash image) */}
       <header 
