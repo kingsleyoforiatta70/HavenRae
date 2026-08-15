@@ -1,28 +1,21 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { 
   Sparkles, 
-  DollarSign, 
-  LayoutDashboard, 
-  Tag, 
-  ChevronLeft, 
-  ChevronRight, 
-  Plus, 
-  Minus 
+  Maximize, 
+  Calendar, 
+  ShoppingBag,
+  ArrowRight
 } from 'lucide-react';
 
 export default function WelcomeScreen({ onStart, onLogin }) {
-  // FAQ accordion state
-  const [activeFaq, setActiveFaq] = useState(null);
+  const workScrollRef = useRef(null);
 
-  // Featured Rooms scroll container reference
-  const scrollContainerRef = useRef(null);
-
-  // Autoplay scrolling for Featured Room Styles carousel
+  // Autoplay scrolling for "Our Work" section project cards carousel
   useEffect(() => {
     const timer = setInterval(() => {
-      if (scrollContainerRef.current) {
-        const container = scrollContainerRef.current;
-        const cardWidth = 376; // Card width + gap
+      if (workScrollRef.current) {
+        const container = workScrollRef.current;
+        const cardWidth = 260; // Card width (232px) + gap (28px)
         const maxScroll = container.scrollWidth - container.clientWidth;
         
         if (container.scrollLeft >= maxScroll - 10) {
@@ -31,516 +24,400 @@ export default function WelcomeScreen({ onStart, onLogin }) {
           container.scrollBy({ left: cardWidth, behavior: 'smooth' });
         }
       }
-    }, 3500); // Slide every 3.5 seconds
+    }, 3000); // Slide every 3 seconds
 
     return () => clearInterval(timer);
   }, []);
 
-  const toggleFaq = (index) => {
-    setActiveFaq(activeFaq === index ? null : index);
-  };
-
-  const scrollRooms = (direction) => {
-    if (scrollContainerRef.current) {
-      const scrollAmount = 376; // Card width + gap
-      scrollContainerRef.current.scrollBy({
-        left: direction === 'left' ? -scrollAmount : scrollAmount,
-        behavior: 'smooth'
-      });
+  // Smooth scroll helper
+  const scrollToSection = (id) => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
     }
   };
 
-  const valueProps = [
+  const services = [
     {
-      icon: <Sparkles className="w-6 h-6 text-brand-green" />,
-      title: 'Vetted Designers',
-      desc: 'Work with curated interior design professionals.'
+      icon: <Sparkles className="w-4 h-4 text-white" />,
+      title: 'Interior Design',
+      desc: 'From the big picture to the little details, we help bring your space together.'
     },
     {
-      icon: <DollarSign className="w-6 h-6 text-brand-green" />,
-      title: 'Real-Time Budget Tracking',
-      desc: 'Know exactly where your money is going, always.'
+      icon: <Maximize className="w-4 h-4 text-white" />,
+      title: 'Space Planning',
+      desc: 'Making sure everything has a place and the space actually works for you.'
     },
     {
-      icon: <LayoutDashboard className="w-6 h-6 text-brand-green" />,
-      title: 'One Dashboard',
-      desc: 'Manage timelines, vendors, and approvals in one place.'
+      icon: <Calendar className="w-4 h-4 text-white" />,
+      title: 'Project Management',
+      desc: 'Keeping track of the moving parts while your project comes together.'
     },
     {
-      icon: <Tag className="w-6 h-6 text-brand-green" />,
-      title: 'Transparent Pricing',
-      desc: 'No hidden fees, ever.'
+      icon: <ShoppingBag className="w-4 h-4 text-white" />,
+      title: 'Sourcing & Styling',
+      desc: 'Finding the pieces, finishes and details that make the space feel complete.'
     }
   ];
 
-  const steps = [
-    { num: '1', title: 'Consult', desc: 'Tell us your style, budget, and goals.' },
-    { num: '2', title: 'Design', desc: 'Our designers create a custom plan for your space.' },
-    { num: '3', title: 'Manage', desc: 'Track progress, budget, and vendors in real time.' },
-    { num: '4', title: 'Move In', desc: 'Enjoy your beautifully transformed space.' }
-  ];
-
-  const rooms = [
+  const projects = [
     {
-      title: 'Modern Living Room',
-      desc: 'Warm neutrals with statement lighting',
-      price: 'GH₵ 8,500',
+      title: 'Polo Heights',
+      location: 'Accra · Residential',
       image: '/images/zac-gudakov-mw_mj-noYHM-unsplash.jpg'
     },
     {
-      title: 'Cozy Bedroom Refresh',
-      desc: 'Soft textures for a calming retreat',
-      price: 'GH₵ 6,200',
+      title: 'Polo Hills',
+      location: 'Accra · Residential',
       image: '/images/francesca-tosolini-hCU4fimRW-c-unsplash.jpg'
     },
     {
-      title: 'Minimalist Dining Space',
-      desc: 'Clean lines, functional elegance',
-      price: 'GH₵ 7,800',
-      image: '/images/05af4de52377ab03f19bf1975e1008a6.jpg'
-    },
-    {
-      title: 'Scandinavian Home Office',
-      desc: 'Light wood tones, calm and focused',
-      price: 'GH₵ 5,400',
-      image: '/images/1d75a4c2d8399c66739b5b8cdd013740.jpg'
-    },
-    {
-      title: 'Industrial Loft Kitchen',
-      desc: 'Exposed textures, bold contrasts',
-      price: 'GH₵ 9,200',
-      image: '/images/37fbb069879224390a583b6fe85cbd10.jpg'
-    },
-    {
-      title: 'Coastal Bathroom Retreat',
-      desc: 'Airy blues, natural stone finishes',
-      price: 'GH₵ 4,800',
-      image: '/images/backbone-L4iRkKL5dng-unsplash.jpg'
-    },
-    {
-      title: 'Home Cinema',
-      desc: 'Layered textiles, earthy warmth',
-      price: 'GH₵ 45,600',
-      image: '/images/c47facdd0a24620eba0ce8ae0709b8de.jpg'
-    },
-    {
-      title: 'Contemporary Home Bar',
-      desc: 'Sleek surfaces, ambient mood lighting',
-      price: 'GH₵ 6,900',
+      title: 'Sky Suites',
+      location: 'Labone, Accra',
       image: '/images/6d6c20aaf0a9ec1d83f6064661ddc56c.jpg'
     },
     {
-      title: 'Classic Family Room',
-      desc: 'Timeless comfort, rich wood accents',
-      price: 'GH₵ 7,100',
+      title: 'Veron Apartments',
+      location: 'Accra · Residential',
       image: '/images/spacejoy-9M66C_w_ToM-unsplash.jpg'
     },
     {
-      title: 'Zen Meditation Corner',
-      desc: 'Muted tones, natural light focus',
-      price: 'GH₵ 3,200',
-      image: '/images/4dced6b6d357b6526832f8c57311e011.jpg'
-    }
-  ];
-
-  const testimonials = [
-    {
-      quote: '“HavenRae completely transformed our living room, and the project management tools kept us in the loop the entire time.”',
-      author: 'Ama K.',
-      location: 'Accra'
-    },
-    {
-      quote: '“I loved being able to track budget and timeline in real time. No surprises along the way.”',
-      author: 'Kwame O.',
-      location: 'Accra'
-    },
-    {
-      quote: '“Our designer understood our style immediately. The whole process felt effortless.”',
-      author: 'Efua T.',
-      location: 'Kumasi'
-    }
-  ];
-
-  const faqs = [
-    {
-      q: 'How long does a typical project take?',
-      a: 'Most projects take 4–8 weeks from consultation to completion, depending on scope.'
-    },
-    {
-      q: 'Do I need to be local to Accra?',
-      a: 'We currently serve clients across Ghana, with design consultations available remotely.'
-    },
-    {
-      q: "What's included in the price?",
-      a: 'Design, project management, and vendor coordination. Materials and labor are quoted separately.'
-    },
-    {
-      q: 'Can I track progress myself?',
-      a: 'Yes, every client gets access to a live project dashboard.'
-    },
-    {
-      q: 'How do I get a quote?',
-      a: "Reach out via the contact details in the footer, or use the quote form in the hero section, and we'll respond within 24 hours."
+      title: 'Swiss Lodge',
+      location: 'Accra · Residential',
+      image: '/images/backbone-L4iRkKL5dng-unsplash.jpg'
     }
   ];
 
   return (
-    <div className="flex flex-col bg-white min-h-screen font-inter select-none">
+    <div className="flex flex-col bg-white min-h-screen font-inter select-none overflow-x-hidden text-[#252320]">
       
-      {/* 1. Nav Bar */}
-      <nav className="w-full flex justify-between items-center px-6 md:px-20 py-6 border-b border-brand-neutral/50 sticky top-0 bg-white/95 backdrop-blur-md z-50">
-        <span 
+      {/* 1. Nav Bar (Figma: height 90px, background #F4F1EC) */}
+      <nav className="w-full h-[90px] flex justify-between items-center px-6 md:px-16 lg:px-[80px] bg-[#F4F1EC] sticky top-0 z-50 border-b border-[#2D4A3B]/5">
+        
+        {/* Brand / Logo (Figma: HavenRae Studios + INTERIOR DESIGN) */}
+        <div 
           onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-          className="font-bold text-2xl text-brand-green cursor-pointer tracking-tight"
+          className="flex flex-col justify-center cursor-pointer group"
         >
-          HavenRae
-        </span>
-        <div className="flex items-center gap-4">
+          <span className="font-playfair italic font-normal text-[22px] leading-[110%] text-[#252320] transition-colors group-hover:text-[#2D4A3B]">
+            HavenRae Studios
+          </span>
+          <span className="font-inter font-normal text-[9px] leading-[11px] tracking-[1.5px] text-[#7A7268] mt-[2px]">
+            INTERIOR DESIGN
+          </span>
+        </div>
+
+        {/* Links (Figma: Left 492.5px, Inter 14px) */}
+        <div className="hidden md:flex items-center gap-8 lg:gap-[32px]">
+          <button 
+            onClick={() => scrollToSection('work')} 
+            className="font-inter text-[14px] leading-[17px] text-[#252320] hover:text-[#2D4A3B] font-medium transition-colors cursor-pointer"
+          >
+            Work
+          </button>
+          <button 
+            onClick={() => scrollToSection('services')} 
+            className="font-inter text-[14px] leading-[17px] text-[#252320] hover:text-[#2D4A3B] font-medium transition-colors cursor-pointer"
+          >
+            Services
+          </button>
+          <button 
+            onClick={() => scrollToSection('about')} 
+            className="font-inter text-[14px] leading-[17px] text-[#252320] hover:text-[#2D4A3B] font-medium transition-colors cursor-pointer"
+          >
+            About
+          </button>
+          <button 
+            onClick={() => scrollToSection('services')} 
+            className="font-inter text-[14px] leading-[17px] text-[#252320] hover:text-[#2D4A3B] font-medium transition-colors cursor-pointer"
+          >
+            Process
+          </button>
+          <button 
+            onClick={() => scrollToSection('footer')} 
+            className="font-inter text-[14px] leading-[17px] text-[#252320] hover:text-[#2D4A3B] font-medium transition-colors cursor-pointer"
+          >
+            Contact
+          </button>
+        </div>
+
+        {/* Action buttons (Figma: Client Login + Start a Project) */}
+        <div className="flex items-center gap-6">
           <button 
             onClick={onLogin}
-            className="px-4 py-2 font-medium text-[15px] text-brand-green hover:opacity-80 transition-opacity cursor-pointer"
+            className="font-inter text-[14px] leading-[17px] text-[#252320] hover:text-[#2D4A3B] font-medium transition-colors cursor-pointer"
           >
-            Log In
+            Client Login
           </button>
           <button 
             onClick={onStart}
-            className="px-[22px] py-[10px] bg-brand-green text-white font-medium text-[15px] rounded-lg shadow-sm hover:bg-brand-green/90 transition-all cursor-pointer transform hover:-translate-y-0.5 active:translate-y-0"
+            className="w-[140px] h-[42px] bg-[#2D4A3B] text-white font-inter text-[13px] font-medium rounded-[4px] shadow-sm hover:bg-[#2D4A3B]/90 active:scale-98 transition-all cursor-pointer flex items-center justify-center"
           >
-            Get Started
+            Start a Project
           </button>
         </div>
       </nav>
 
-      {/* 2. Hero Section */}
+      {/* 2. Hero Section (Figma: height 560px, background unsplash image) */}
       <header 
-        className="relative w-full h-[650px] md:h-[800px] flex items-center bg-cover bg-center"
-        style={{ backgroundImage: `url('/images/0d37f9116388a6b2640baf4768c7c8ef.jpg')` }}
+        className="relative w-full h-[560px] flex items-center bg-cover bg-center overflow-hidden"
+        style={{ backgroundImage: `url('/images/lotus-design-n-print-mIurtZy_5RE-unsplash.jpg')` }}
       >
-        {/* Shadow Overlay for Readability */}
-        <div className="absolute inset-0 bg-black/45" />
+        {/* Soft elegant vignette overlay to ensure text contrast */}
+        <div className="absolute inset-0 bg-gradient-to-r from-[#F4F1EC]/65 via-[#F4F1EC]/40 to-transparent pointer-events-none" />
 
-        <div className="relative w-full max-w-7xl mx-auto px-6 md:px-20 flex items-center">
-          <div className="max-w-[540px] text-left">
-            <span className="block text-[13px] font-extrabold text-[#F9F7F4] tracking-[0.15em] mb-4 uppercase animate-slide-down">
-              Interior Design, Organized
+        <div className="relative w-full max-w-7xl mx-auto px-6 md:px-16 lg:px-[80px]">
+          <div className="max-w-[480px] flex flex-col items-start text-left">
+            <span className="font-inter font-medium text-[12px] leading-[15px] tracking-[2px] text-[#252320] uppercase mb-[12px] animate-slide-down">
+              INTERIOR DESIGN
             </span>
-            <h1 
-              className="text-4xl md:text-5xl lg:text-[50px] font-bold text-[#28AB67] leading-[1.2] mb-6 drop-shadow-sm animate-slide-left"
-              style={{ animationDelay: '0.4s' }}
-            >
-              Welcome to HavenRae
+            <h1 className="font-playfair font-normal text-4xl sm:text-5xl lg:text-[52px] leading-[108%] text-[#252320] mb-[18px] animate-slide-left">
+              Spaces that feel like home.
             </h1>
-            <p 
-              className="text-base md:text-[18px] italic font-semibold text-white/90 leading-relaxed max-w-[460px] drop-shadow-sm animate-slide-right"
-              style={{ animationDelay: '0.8s' }}
-            >
-              One place to manage every HavenRae project - schedules, budgets, suppliers, and design files, all in sync with your team.
+            <p className="font-inter font-normal text-[15px] leading-[18px] text-[#4F4A44] mb-[24px] max-w-[270px] animate-slide-right">
+              We design calm, beautiful spaces that feel like you.
             </p>
-            <div 
-              className="mt-8 flex gap-4 animate-slide-up"
-              style={{ animationDelay: '1.2s' }}
+            <button 
+              onClick={onStart}
+              className="w-[120px] h-[46px] bg-[#2D4A3B] text-white font-inter text-[14px] font-medium rounded-[4px] shadow-md hover:bg-[#2D4A3B]/90 hover:shadow-lg active:scale-98 transition-all cursor-pointer flex items-center justify-center animate-slide-up"
             >
-              <button 
-                onClick={onStart}
-                className="px-6 py-3 bg-[#28AB67] hover:bg-[#28AB67]/90 text-white font-semibold rounded-lg shadow-md transition-all cursor-pointer transform hover:-translate-y-0.5"
-              >
-                Start Renovation
-              </button>
-              <button 
-                onClick={() => {
-                  const element = document.getElementById('how-it-works');
-                  if (element) element.scrollIntoView({ behavior: 'smooth' });
-                }}
-                className="px-6 py-3 bg-white/10 hover:bg-white/20 text-white font-semibold rounded-lg backdrop-blur-sm border border-white/20 transition-all cursor-pointer"
-              >
-                Learn More
-              </button>
-            </div>
+              Let's talk
+            </button>
           </div>
         </div>
       </header>
 
-      {/* 3. Value Props Section */}
-      <section className="w-full py-20 px-6 md:px-20 bg-white">
-        <div className="max-w-7xl mx-auto text-center">
-          <h2 className="text-3xl md:text-[34px] font-bold text-brand-green mb-3">
-            Why HavenRae
-          </h2>
-          <p className="text-brand-gray text-base md:text-[16px] max-w-xl mx-auto mb-16">
-            Everything you need for a beautifully managed renovation.
-          </p>
+      {/* 3. About Section (Figma: height 460px, background #FFFFFF) */}
+      <section id="about" className="w-full min-h-[460px] py-[60px] md:py-[40px] flex items-center bg-white">
+        <div className="w-full max-w-7xl mx-auto px-6 md:px-16 lg:px-[80px] grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+          
+          {/* Left Text Frame */}
+          <div className="lg:col-span-6 flex flex-col items-start text-left max-w-[440px]">
+            <span className="font-inter font-medium text-[11px] leading-[13px] tracking-[1.5px] text-[#7A7268] uppercase mb-[12px]">
+              ABOUT HAVENRAE
+            </span>
+            <h2 className="font-playfair font-normal text-3xl sm:text-[34px] leading-[115%] text-[#252320] mb-[20px]">
+              Good design should feel natural.
+            </h2>
+            <p className="font-inter font-normal text-[14px] leading-[20px] text-[#7A7268] mb-[16px]">
+              We believe your space should look good, but more importantly, it should feel good to live in.
+            </p>
+            <p className="font-inter font-normal text-[14px] leading-[20px] text-[#7A7268] mb-[28px]">
+              We work with you to understand what you need, what you like, and what makes sense for your space — then we bring it all together.
+            </p>
+            <button 
+              onClick={() => scrollToSection('services')}
+              className="group font-inter font-medium text-[14px] leading-[17px] text-[#252320] flex items-center gap-1 hover:text-[#2D4A3B] transition-colors cursor-pointer"
+            >
+              <span>More about us</span>
+              <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+            </button>
+          </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12">
-            {valueProps.map((prop, idx) => (
+          {/* Right Image (600x380px roughly) */}
+          <div className="lg:col-span-6 flex justify-center lg:justify-end">
+            <div 
+              className="w-full max-w-[600px] h-[260px] sm:h-[380px] bg-cover bg-center rounded-[4px] shadow-sm hover:shadow-md transition-shadow"
+              style={{ backgroundImage: `url('/images/spacejoy-umAXneH4GhA-unsplash.jpg')` }}
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* 4. Services Section (Figma: height 390px, background #FFFFFF) */}
+      <section id="services" className="w-full min-h-[390px] py-[60px] md:py-[50px] bg-white border-t border-[#F6F4F1]">
+        <div className="w-full max-w-7xl mx-auto px-6 md:px-16 lg:px-[80px] flex flex-col items-center">
+          
+          {/* Header */}
+          <div className="flex flex-col items-center text-center mb-[48px]">
+            <span className="font-inter font-medium text-[11px] leading-[13px] tracking-[1.5px] text-[#7A7268] uppercase mb-[10px]">
+              OUR SERVICES
+            </span>
+            <h2 className="font-playfair font-normal text-3xl sm:text-[32px] leading-[110%] text-[#252320]">
+              How we can help.
+            </h2>
+          </div>
+
+          {/* Grid Layout (Figma: gap 70px) */}
+          <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-[70px]">
+            {services.map((svc, idx) => (
+              <div key={idx} className="flex flex-col items-start text-left group">
+                {/* 28x28px green container */}
+                <div className="w-[28px] h-[28px] bg-[#2D4A3B] rounded-[6px] flex items-center justify-center mb-[12px] group-hover:scale-105 transition-transform">
+                  {svc.icon}
+                </div>
+                <h3 className="font-inter font-medium text-[15px] leading-[18px] text-[#252320] mb-[10px] group-hover:text-[#2D4A3B] transition-colors">
+                  {svc.title}
+                </h3>
+                <p className="font-inter font-normal text-[13px] leading-[16px] text-[#7A7268]">
+                  {svc.desc}
+                </p>
+              </div>
+            ))}
+          </div>
+
+        </div>
+      </section>
+
+      {/* 5. Work Section (Figma: height 542px, background #F6F4F1) */}
+      <section id="work" className="w-full min-h-[542px] py-[60px] md:py-[70px] bg-[#F6F4F1] flex items-center">
+        <div className="w-full max-w-7xl mx-auto px-6 md:px-16 lg:px-[80px] flex flex-col">
+          
+          {/* Header Row */}
+          <div className="w-full flex flex-col sm:flex-row justify-between items-start sm:items-end mb-[36px] gap-4">
+            <div className="flex flex-col items-start text-left">
+              <span className="font-inter font-medium text-[11px] leading-[13px] tracking-[1.5px] text-[#7A7268] uppercase mb-[8px]">
+                OUR WORK
+              </span>
+              <h2 className="font-playfair font-normal text-2xl sm:text-[28px] leading-[110%] text-[#252320]">
+                A few spaces we've loved working on.
+              </h2>
+            </div>
+            <button 
+              onClick={() => scrollToSection('work')}
+              className="font-inter font-medium text-[14px] leading-[17px] text-[#252320] hover:text-[#2D4A3B] transition-colors flex items-center gap-1 cursor-pointer"
+            >
+              <span>View all work</span>
+              <ArrowRight className="w-4 h-4" />
+            </button>
+          </div>
+
+          {/* Project Slider/Grid (Figma: width of each card 232px, gap 28px) */}
+          <div 
+            ref={workScrollRef}
+            className="w-full flex overflow-x-auto gap-[28px] pb-4 scrollbar-thin scrollbar-thumb-[#2D4A3B]/10 scrollbar-track-transparent scroll-smooth"
+          >
+            {projects.map((proj, idx) => (
               <div 
                 key={idx} 
-                className="flex flex-col items-center p-6 rounded-2xl border border-brand-neutral/20 bg-brand-neutral/10 hover:bg-brand-neutral/30 hover:border-brand-green/20 transition-all duration-300 transform hover:-translate-y-1"
+                className="flex-none w-[232px] flex flex-col group cursor-pointer"
               >
-                <div className="w-14 h-14 bg-[#EDE1DA] rounded-full flex items-center justify-center mb-5 shadow-inner">
-                  {prop.icon}
-                </div>
-                <h3 className="text-lg font-bold text-brand-green mb-3">
-                  {prop.title}
-                </h3>
-                <p className="text-sm text-brand-gray text-center leading-relaxed">
-                  {prop.desc}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* 4. How It Works Section */}
-      <section id="how-it-works" className="w-full py-20 px-6 md:px-20 bg-brand-neutral">
-        <div className="max-w-7xl mx-auto text-center">
-          <h2 className="text-3xl md:text-[34px] font-bold text-brand-green mb-3">
-            How It Works
-          </h2>
-          <p className="text-brand-gray text-base md:text-[16px] max-w-xl mx-auto mb-16">
-            From concept to move-in, in four simple steps.
-          </p>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12">
-            {steps.map((step, idx) => (
-              <div key={idx} className="flex flex-col items-center relative group">
-                {/* Number Badge */}
-                <div className="w-11 h-11 bg-[#C1633B] text-white font-bold text-lg rounded-full flex items-center justify-center mb-5 shadow-md transform group-hover:scale-110 transition-transform duration-300">
-                  {step.num}
-                </div>
-                <h3 className="text-lg font-bold text-brand-green mb-3">
-                  {step.title}
-                </h3>
-                <p className="text-sm text-brand-gray text-center leading-relaxed max-w-[260px]">
-                  {step.desc}
-                </p>
-
-                {/* Connecting Lines for Desktop */}
-                {idx < 3 && (
-                  <div className="hidden lg:block absolute top-5 left-[60%] w-full h-[2px] bg-[#C1633B]/20 -z-0" />
-                )}
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* 5. Featured Room Styles */}
-      <section className="w-full py-20 bg-white relative">
-        <div className="max-w-7xl mx-auto text-center px-6">
-          <h2 className="text-3xl md:text-[34px] font-bold text-brand-green mb-3">
-            Featured Room Styles
-          </h2>
-          <p className="text-brand-gray text-base md:text-[16px] max-w-xl mx-auto mb-12">
-            A few of our recent transformations, with starting prices.
-          </p>
-        </div>
-
-        {/* Carousel Navigation Buttons */}
-        <div className="absolute top-24 md:top-28 right-6 md:right-24 flex gap-2">
-          <button 
-            onClick={() => scrollRooms('left')}
-            className="w-10 h-10 border border-brand-neutral bg-white hover:bg-brand-neutral/30 rounded-full flex items-center justify-center text-brand-green transition-all shadow-sm cursor-pointer"
-          >
-            <ChevronLeft className="w-5 h-5" />
-          </button>
-          <button 
-            onClick={() => scrollRooms('right')}
-            className="w-10 h-10 border border-brand-neutral bg-white hover:bg-brand-neutral/30 rounded-full flex items-center justify-center text-brand-green transition-all shadow-sm cursor-pointer"
-          >
-            <ChevronRight className="w-5 h-5" />
-          </button>
-        </div>
-
-        {/* Horizontal Slider Wrapper */}
-        <div 
-          ref={scrollContainerRef}
-          className="flex overflow-x-auto gap-8 px-6 md:px-20 py-4 scrollbar-none snap-x snap-mandatory"
-          style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-        >
-          {rooms.map((room, idx) => (
-            <div 
-              key={idx} 
-              className="flex-none w-[340px] bg-white border border-[#E6E0D9] rounded-2xl p-0 overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 transform hover:-translate-y-1 snap-start"
-            >
-              {/* Room Card Image */}
-              <div 
-                className="w-full h-[260px] bg-cover bg-center rounded-t-2xl relative"
-                style={{ backgroundImage: `url('${room.image}')` }}
-              />
-
-              {/* Card Description */}
-              <div className="flex flex-col gap-2 p-5 text-left bg-white">
-                <h4 className="text-xl font-bold text-brand-green leading-snug">
-                  {room.title}
+                {/* Image Placeholder Frame (width 232px, height 260px) */}
+                <div 
+                  className="w-[232px] h-[260px] bg-[#A9967D] rounded-[4px] bg-cover bg-center overflow-hidden shadow-sm group-hover:shadow-md transition-all duration-300 transform group-hover:-translate-y-1"
+                  style={{ backgroundImage: `url('${proj.image}')` }}
+                />
+                
+                {/* Details */}
+                <h4 className="font-inter font-medium text-[14px] leading-[17px] text-[#252320] mt-[10px] group-hover:text-[#2D4A3B] transition-colors">
+                  {proj.title}
                 </h4>
-                <p className="text-[15px] text-brand-gray font-normal leading-relaxed h-[36px] overflow-hidden">
-                  {room.desc}
-                </p>
-                <span className="text-[17px] font-semibold text-[#C1633B] mt-2 block">
-                  From {room.price}
+                <span className="font-inter font-normal text-[12px] leading-[15px] text-[#7A7268] mt-[4px]">
+                  {proj.location}
                 </span>
               </div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* 6. Testimonials Section */}
-      <section className="w-full py-20 px-6 md:px-20 bg-white border-t border-brand-neutral/30">
-        <div className="max-w-7xl mx-auto text-center">
-          <h2 className="text-3xl md:text-[34px] font-bold text-brand-green mb-3">
-            What Our Clients Say
-          </h2>
-          <p className="text-brand-gray text-base md:text-[16px] max-w-xl mx-auto mb-16">
-            Real feedback from real transformations.
-          </p>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {testimonials.map((test, idx) => (
-              <div 
-                key={idx} 
-                className="flex flex-col justify-between items-start p-8 rounded-2xl border border-[#E5E0D9] bg-white hover:border-[#C1633B]/30 hover:shadow-md transition-all duration-300"
-              >
-                <p className="text-[15px] text-brand-gray text-left leading-relaxed italic mb-8">
-                  {test.quote}
-                </p>
-                <div className="flex flex-col items-start gap-1">
-                  <span className="font-bold text-[15px] text-brand-green">
-                    {test.author}
-                  </span>
-                  <span className="text-[13px] text-brand-gray">
-                    {test.location}
-                  </span>
-                </div>
-              </div>
             ))}
           </div>
+
         </div>
       </section>
 
-      {/* 7. FAQ Section */}
-      <section className="w-full py-20 px-6 md:px-20 bg-white border-t border-brand-neutral/30">
-        <div className="max-w-4xl mx-auto flex flex-col items-center">
-          <h2 className="text-3xl md:text-[34px] font-bold text-brand-green mb-16 text-center">
-            Frequently Asked Questions
+      {/* 6. Final CTA Band (Figma: height 340px, background image) */}
+      <section 
+        className="relative w-full h-[340px] flex items-center justify-center bg-cover bg-center overflow-hidden"
+        style={{ backgroundImage: `url('/images/bailey-alexander-cYeCxtKpTTQ-unsplash.jpg')` }}
+      >
+        {/* Soft background light/dark tint overlay */}
+        <div className="absolute inset-0 bg-[#F4F1EC]/70 backdrop-blur-[1px] pointer-events-none" />
+
+        <div className="relative w-full max-w-xl mx-auto px-6 flex flex-col items-center text-center">
+          <span className="font-inter font-medium text-[11px] leading-[13px] tracking-[1.5px] text-[#252320] uppercase mb-[10px]">
+            YOUR SPACE, YOUR STORY
+          </span>
+          <h2 className="font-playfair font-normal text-3xl sm:text-[34px] leading-[115%] text-[#252320] mb-[24px]">
+            Let's create something beautiful together.
           </h2>
-
-          <div className="w-full max-w-3xl flex flex-col gap-6">
-            {faqs.map((faq, idx) => (
-              <div key={idx} className="flex flex-col text-left border-b border-[#E5E0D9] pb-6">
-                <button 
-                  onClick={() => toggleFaq(idx)}
-                  className="flex justify-between items-center w-full font-bold text-base md:text-[17px] text-brand-green hover:opacity-85 transition-opacity cursor-pointer py-2 focus:outline-none"
-                >
-                  <span>{faq.q}</span>
-                  <span className="text-brand-green ml-4">
-                    {activeFaq === idx ? <Minus className="w-5 h-5" /> : <Plus className="w-5 h-5" />}
-                  </span>
-                </button>
-
-                <div 
-                  className={`overflow-hidden transition-all duration-350 ease-in-out ${
-                    activeFaq === idx ? 'max-h-[100px] mt-3 opacity-100' : 'max-h-0 opacity-0'
-                  }`}
-                >
-                  <p className="text-[15px] text-brand-gray leading-relaxed">
-                    {faq.a}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* 8. Final CTA Band */}
-      <section className="w-full py-20 px-6 md:px-20 bg-brand-green text-center text-white relative overflow-hidden">
-        {/* Subtle glowing ring background decoration */}
-        <div className="absolute -top-24 -left-24 w-96 h-96 rounded-full border border-white/5 pointer-events-none" />
-        <div className="absolute -bottom-24 -right-24 w-96 h-96 rounded-full border border-white/5 pointer-events-none" />
-
-        <div className="max-w-4xl mx-auto flex flex-col items-center relative z-10">
-          <h2 className="text-3xl md:text-[32px] font-bold text-white mb-4">
-            Ready to Transform Your Space?
-          </h2>
-          <p className="text-base md:text-[16px] text-[#D4DDD8] max-w-[600px] mb-8 leading-relaxed">
-            Get started today and see what HavenRae can do for your next project.
-          </p>
           <button 
             onClick={onStart}
-            className="px-8 py-4 bg-[#C1633B] hover:bg-[#C1633B]/90 text-white font-medium text-[16px] rounded-lg shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-0.5 active:translate-y-0 cursor-pointer"
+            className="w-[160px] h-[46px] bg-[#2D4A3B] text-white font-inter text-[14px] font-medium rounded-[4px] shadow-md hover:bg-[#2D4A3B]/90 hover:shadow-lg active:scale-98 transition-all cursor-pointer flex items-center justify-center"
           >
-            Get Started
+            Start a Project
           </button>
         </div>
       </section>
 
-      {/* 9. Footer Section */}
-      <footer className="w-full bg-brand-green text-[#CCD9CC] px-6 md:px-20 pt-16 pb-8 border-t border-white/10">
-        <div className="max-w-7xl mx-auto flex flex-col gap-10">
+      {/* 7. Footer Section (Figma: height 243px, background #2D4A3B) */}
+      <footer id="footer" className="w-full bg-[#2D4A3B] text-[#CCD9CC] px-6 md:px-16 lg:px-[80px] pt-[56px] pb-[32px] flex flex-col justify-between">
+        <div className="w-full max-w-7xl mx-auto flex flex-col gap-[32px]">
           
-          {/* Main Footer Links & Directory */}
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12">
+          {/* Top Row: Brand & Columns */}
+          <div className="flex flex-col lg:flex-row justify-between items-start gap-8 lg:gap-[80px]">
             
-            {/* Branding Column */}
-            <div className="md:col-span-6 flex flex-col items-start gap-4">
-              <span className="font-bold text-xl text-white">
+            {/* Brand Block */}
+            <div className="flex flex-col items-start gap-[10px] max-w-[300px]">
+              <span className="font-inter font-bold text-[20px] leading-[24px] text-white">
                 HavenRae
               </span>
-              <p className="text-sm font-normal max-w-[300px] leading-relaxed">
+              <p className="font-inter font-normal text-[13px] leading-[16px] text-[#CCD9CC]">
                 Interior design and project management, in sync.
               </p>
             </div>
 
-            {/* Links Columns */}
-            <div className="md:col-span-2 flex flex-col items-start gap-4">
-              <span className="font-medium text-sm text-white uppercase tracking-wider">
-                Company
-              </span>
-              <ul className="flex flex-col gap-3 text-sm">
-                <li><a href="#about" className="hover:text-white transition-colors">About</a></li>
-                <li><a href="#rooms" className="hover:text-white transition-colors">Rooms</a></li>
-                <li><a href="#contact" className="hover:text-white transition-colors">Contact</a></li>
-              </ul>
+            {/* Links Columns Container */}
+            <div className="flex flex-wrap gap-8 sm:gap-[60px] lg:gap-[80px]">
+              
+              {/* Company Column */}
+              <div className="flex flex-col items-start gap-[10px] min-w-[64px]">
+                <span className="font-inter font-medium text-[14px] leading-[17px] text-white mb-[2px]">
+                  Company
+                </span>
+                <button onClick={() => scrollToSection('about')} className="font-inter font-normal text-[13px] leading-[16px] text-[#CCD9CC] hover:text-white transition-colors cursor-pointer text-left">
+                  About
+                </button>
+                <button onClick={() => scrollToSection('work')} className="font-inter font-normal text-[13px] leading-[16px] text-[#CCD9CC] hover:text-white transition-colors cursor-pointer text-left">
+                  Rooms
+                </button>
+                <button onClick={() => scrollToSection('footer')} className="font-inter font-normal text-[13px] leading-[16px] text-[#CCD9CC] hover:text-white transition-colors cursor-pointer text-left">
+                  Contact
+                </button>
+              </div>
+
+              {/* Support Column */}
+              <div className="flex flex-col items-start gap-[10px] min-w-[75px]">
+                <span className="font-inter font-medium text-[14px] leading-[17px] text-white mb-[2px]">
+                  Support
+                </span>
+                <span className="font-inter font-normal text-[13px] leading-[16px] text-[#CCD9CC] cursor-pointer hover:text-white transition-colors">
+                  FAQ
+                </span>
+                <button onClick={onStart} className="font-inter font-normal text-[13px] leading-[16px] text-[#CCD9CC] hover:text-white transition-colors cursor-pointer text-left">
+                  Get a Quote
+                </button>
+                <span className="font-inter font-normal text-[13px] leading-[16px] text-[#CCD9CC] cursor-pointer hover:text-white transition-colors">
+                  Careers
+                </span>
+              </div>
+
+              {/* Contact Column */}
+              <div className="flex flex-col items-start gap-[10px] min-w-[173px]">
+                <span className="font-inter font-medium text-[14px] leading-[17px] text-white mb-[2px]">
+                  Contact
+                </span>
+                <a href="mailto:hello@havenraestudios.com" className="font-inter font-normal text-[13px] leading-[16px] text-[#CCD9CC] hover:text-white transition-colors">
+                  hello@havenraestudios.com
+                </a>
+                <span className="font-inter font-normal text-[13px] leading-[16px] text-[#CCD9CC]">
+                  +233 20 000 0000
+                </span>
+                <span className="font-inter font-normal text-[13px] leading-[16px] text-[#CCD9CC]">
+                  Accra, Ghana
+                </span>
+              </div>
+
             </div>
 
-            <div className="md:col-span-2 flex flex-col items-start gap-4">
-              <span className="font-medium text-sm text-white uppercase tracking-wider">
-                Support
-              </span>
-              <ul className="flex flex-col gap-3 text-sm">
-                <li><a href="#faq" className="hover:text-white transition-colors">FAQ</a></li>
-                <li><a href="#quote" className="hover:text-white transition-colors">Get a Quote</a></li>
-                <li><a href="#careers" className="hover:text-white transition-colors">Careers</a></li>
-              </ul>
-            </div>
-
-            <div className="md:col-span-2 flex flex-col items-start gap-4">
-              <span className="font-medium text-sm text-white uppercase tracking-wider">
-                Contact
-              </span>
-              <ul className="flex flex-col gap-3 text-sm text-left">
-                <li><a href="mailto:hello@havenraestudios.com" className="hover:text-white transition-colors">hello@havenraestudios.com</a></li>
-                <li><span className="block">+233 20 000 0000</span></li>
-                <li><span className="block font-light">Accra, Ghana</span></li>
-              </ul>
-            </div>
-            
           </div>
 
           {/* Divider */}
           <div className="w-full h-[1px] bg-white/15" />
 
-          {/* Copyright Row */}
-          <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-xs font-light">
-            <span>© 2026 HavenRae Studios. All rights reserved.</span>
-            <div className="flex gap-6">
-              <a href="#privacy" className="hover:text-white transition-colors">Privacy Policy</a>
-              <a href="#terms" className="hover:text-white transition-colors">Terms of Service</a>
-            </div>
+          {/* Bottom Copyright Row */}
+          <div className="w-full flex flex-col sm:flex-row justify-between items-center gap-4 text-[#CCD9CC]">
+            <span className="font-inter font-normal text-[12px] leading-[15px]">
+              © 2026 HavenRae Studios. All rights reserved.
+            </span>
           </div>
-          
+
         </div>
       </footer>
 
