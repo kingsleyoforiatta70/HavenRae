@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { 
   Sparkles, 
   Maximize, 
@@ -9,6 +9,33 @@ import {
 
 export default function WelcomeScreen({ onStart, onLogin }) {
   const workScrollRef = useRef(null);
+  const [navVisible, setNavVisible] = useState(true);
+
+  // Auto-hide navbar when scrolling, show when scrolling stops
+  useEffect(() => {
+    let timeoutId = null;
+
+    const handleScroll = () => {
+      // Hide the navbar immediately when scrolling starts
+      setNavVisible(false);
+
+      // Clear the previous timeout
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
+
+      // Show the navbar again after scrolling stops (250ms of scroll inactivity)
+      timeoutId = setTimeout(() => {
+        setNavVisible(true);
+      }, 250);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      if (timeoutId) clearTimeout(timeoutId);
+    };
+  }, []);
 
   // Autoplay scrolling for "Our Work" section project cards carousel
   useEffect(() => {
@@ -92,7 +119,9 @@ export default function WelcomeScreen({ onStart, onLogin }) {
     <div className="flex flex-col bg-white min-h-screen font-inter select-none overflow-x-hidden text-[#252320]">
       
       {/* 1. Nav Bar (Figma: height 90px, background #F4F1EC) */}
-      <nav className="w-full h-[90px] flex justify-between items-center px-6 md:px-16 lg:px-[80px] bg-[#F4F1EC] sticky top-0 z-50 border-b border-[#2D4A3B]/5">
+      <nav className={`w-full h-[90px] flex justify-between items-center px-6 md:px-16 lg:px-[80px] bg-[#F4F1EC] sticky top-0 z-50 border-b border-[#2D4A3B]/5 transition-all duration-300 ease-in-out ${
+        navVisible ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0'
+      }`}>
         
         {/* Brand / Logo (Figma: HavenRae Studios + INTERIOR DESIGN) */}
         <div 
